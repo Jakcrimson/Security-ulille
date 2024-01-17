@@ -211,16 +211,21 @@ PermissionError: [Errno 1] Operation not permitted
 
 ## Question 5
 
+On obtient le résultat suivant :
+```bash
 toto:x:1001:1001::/home/toto:/bin/bash
-
-nom utilisateur :x: EUID : EGID :: base : executable ?
-
-La commande `chfn` éxécutée avec root permet de changer des informations sur un utilisateur (real name, username, information etc.).
+```
+de la forme `Nom:Mot de passe: UserID:PrincipleGroup:Gecos: HomeDirectory:Shell`
 
 ```bash
 >ls -al /usr/bin/chfn
 -rwsr-xr-x 1 root root 72712 Nov 24  2022 /usr/bin/chfn
 ```
+On remarque que le `set-user-id` est activé, cela signifie que les utilisateurs n'ayant pas les super droits peuvent éxécuter la commande `chfn` afin de modifier leurs informations.
+
+---
+
+De manière naturelle, `chfn` éxécutée avec root permet de changer des informations sur un utilisateur (real name, username, information etc.).
 
 Si on essaye de lancer la commande `chfn` avec l'utilisateur toto, l'utilisateur doit entrer un mot de passe, vraisemblablement, celui de l'utilisateur (en l'occurence `root`). Une fois rentré, nous pouvons modifier les informations de l'utilisateur toto.
 
@@ -239,15 +244,25 @@ Enter the new value, or press ENTER for the default
 Quand on vérifie le contenu de etc/passwd on remarque que les informations sont bien mise à jour :
 
 ```bash
-root:x:0:0:francois,04,0612345678,0312345678,jsp:/root:/bin/bash
 toto:x:1001:1001:,45,06123485678,031234678:/home/toto:/bin/bash
 ```
 
 ## Question 6
 
-Réponse
+ Le fichier `/etc/shadow` contient les mots de passe et est utilisé pour renforcer le niveau de sécurité des mots de passe en limitant l'accès aux données de mots de passe hachés à des utilisateurs ayant les super droits.
+
 
 ## Question 7
+
+Pour la mise en place de la structure, on décide de créer un groupe en plus qui contient le groupe_a et le groupe_b afin de ne pas à avoir à utiliser les Access Control List.
+
+A la fin de la mise en place, voici les droits de l'arborescence de partage : 
+
+```bash
+
+
+```
+
 
 Mettre les scripts bash dans le repertoire *question7*.
 
