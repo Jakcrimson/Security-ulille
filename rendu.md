@@ -164,10 +164,84 @@ if __name__ == "__main__":
 ```
 On assigne le `set-user-id` au fichier python, et les permissions suivantes : `-rwsrw-r-- 1 ubuntu ubuntu   519 Jan 10 16:33 suuid.py`.
 
+```bash
+toto@vm1:/home/ubuntu$ ls -l 
+total 28
+-rwxrwxr-x 1 ubuntu ubuntu 16568 Jan 10 15:40 a.out
+drwxrwxr-x 2 ubuntu ubuntu  4096 Jan 10 16:10 mydir
+-rwsrw-r-- 1 ubuntu ubuntu   519 Jan 10 16:33 suuid.py
+toto@vm1:/home/ubuntu$ python3 suuid.py 
+EUID: 1001
+EGID: 1001
+```
+Grace au `set-user-id`, l'utilisateur toto est en mesure d'éxécuter le script. On retrouve bien les ids de l'utilisateur toto.
+
+Le flag set-user-id (setuid) est un mécanisme de sécurité dans les systèmes d'exploitation Unix/Linux. Cela permet à un utilisateur d'exécuter un programme avec des privilèges supérieurs à ceux qu'il possède normalement.
+
+L'utilité du flag setuid est souvent associée à des situations où un programme nécessite des privilèges élevés pour effectuer certaines opérations, mais l'utilisateur normal ne devrait pas avoir ces privilèges en permanence.
+
+En ce qui concerne la modification d'attributs sans demander à l'administrateur, cela peut être réalisé si l'administrateur a spécifiquement prévu cela dans la configuration du système. Par exemple, il pourrait y avoir un programme avec setuid qui permet à l'utilisateur de modifier certaines de ses propres informations dans le fichier /etc/passwd sans nécessiter les privilèges d'administration complets. 
+
+Par exemple, si on essaye de modifier les `suid` dans un script python éxécuté par ubuntu sans les droits admin, on obtient l'output suivant :
+
+```bash
+ubuntu@vm1:~$ python3 suuid.py 
+EUID: 1000
+EGID: 1000
+UIDs: (1000, 1000, 1000)
+UIDs: (1000, 1000, 1000) #modification après affichage des ids
+Traceback (most recent call last):
+  File "/home/ubuntu/suuid.py", line 22, in <module>
+    print_user_group_ids()
+  File "/home/ubuntu/suuid.py", line 13, in print_user_group_ids
+    os.setresuid(ruid, euid, suid) 
+PermissionError: [Errno 1] Operation not permitted
+```
+
+```python
+#le code en question :
+    ruid = 1001
+    euid = 1000
+    suid = 1001
+    os.setresuid(ruid, euid, suid) 
+    print(f"UIDs: {os.getresuid()}")
+    print(f"UIDs: {os.getresgid()}")
+```
+
 
 ## Question 5
 
-Réponse
+toto:x:1001:1001::/home/toto:/bin/bash
+
+nom utilisateur :x: EUID : EGID :: base : executable ?
+
+La commande `chfn` éxécutée avec root permet de changer des informations sur un utilisateur (real name, username, information etc.).
+
+```bash
+>ls -al /usr/bin/chfn
+-rwsr-xr-x 1 root root 72712 Nov 24  2022 /usr/bin/chfn
+```
+
+Si on essaye de lancer la commande `chfn` avec l'utilisateur toto, l'utilisateur doit entrer un mot de passe, vraisemblablement, celui de l'utilisateur (en l'occurence `root`). Une fois rentré, nous pouvons modifier les informations de l'utilisateur toto.
+
+```bash
+toto@vm1:/home/ubuntu$ chfn
+Password: 
+Changing the user information for toto
+Enter the new value, or press ENTER for the default
+	Full Name: 
+	Room Number []: 45
+	Work Phone []: 06123485678
+	Home Phone []: 031234678
+
+```
+
+Quand on vérifie le contenu de etc/passwd on remarque que les informations sont bien mise à jour :
+
+```bash
+root:x:0:0:francois,04,0612345678,0312345678,jsp:/root:/bin/bash
+toto:x:1001:1001:,45,06123485678,031234678:/home/toto:/bin/bash
+```
 
 ## Question 6
 
