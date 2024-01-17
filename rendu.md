@@ -2,9 +2,9 @@
 
 ## Binome
 
-- Nom, Prénom, email: ___
+- Nom, Prénom, email: LAGUE, Pierre, pierre.lague.etu@univ-lille.fr
 
-- Nom, Prénom, email: ___
+- Nom, Prénom, email: MULLER, François, francois.muller.etu@univ-lille.fr
 
 ## Question 1
 
@@ -256,12 +256,32 @@ toto:x:1001:1001:,45,06123485678,031234678:/home/toto:/bin/bash
 
 Pour la mise en place de la structure, on décide de créer un groupe en plus qui contient le groupe_a et le groupe_b afin de ne pas à avoir à utiliser les Access Control List.
 
+Entre autres nous avons utilisé les fonctions suivantes :
+
+- `groupadd` : pour la création de groupe
+- `adduser` : pour la création d'utilisateurs
+- `chgrp` : pour l'assignation de groupes à un utilisateur
+- `chown` : pour le changement de proriétaire d'une entité (fichier, dossier)
+- `chmod` : pour la modification des droits associés à un fichier/dossier
+    - utilisation du `sticky-bit +t` pour limiter les actions au sein d'un dossier.
+
+
 A la fin de la mise en place, voici les droits de l'arborescence de partage : 
 
 ```bash
+#point de vue de lambda_a
+lambda_a@vm1:/root/partage/dir_c$ groups
+lambda_a groupe_a groupe_gene
 
-
+# point de vue de admin (le même que lambda_a)
+admin@vm1:/root/partage$ ls -l
+total 12
+drwxrws--T 3 root groupe_a    4096 Jan 17 16:35 dir_a
+drwxrws--T 2 root groupe_b    4096 Jan 17 16:39 dir_b
+dr-xr-s--- 2 root groupe_gene 4096 Jan 17 16:38 dir_c
 ```
+
+
 
 
 Mettre les scripts bash dans le repertoire *question7*.
