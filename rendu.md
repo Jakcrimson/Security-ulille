@@ -258,16 +258,13 @@ Entre autres nous avons utilisé les fonctions suivantes :
 A la fin de la mise en place, voici les droits de l'arborescence de partage : 
 
 ```bash
-#point de vue de lambda_a
-lambda_a@vm1:/root/partage/dir_c$ groups
-lambda_a groupe_a groupe_gene
-
-# point de vue de admin (le même que lambda_a)
-admin@vm1:/root/partage$ ls -l
-total 12
-drwxrws--T 3 root groupe_a    4096 Jan 17 16:35 dir_a
-drwxrws--T 2 root groupe_b    4096 Jan 17 16:39 dir_b
-dr-xr-s--- 2 root groupe_gene 4096 Jan 17 16:38 dir_c
+lambda_a@vm1:/root/partage$ ls -l
+total 20
+-rwxr-xr-x 1 root  root         945 Jan 18 13:52 admin.sh
+drwxrwx--T 4 admin groupe_a    4096 Jan 18 13:55 dir_a
+drwxrws--T 3 admin groupe_b    4096 Jan 18 13:52 dir_b
+drwsr-s--- 2 admin groupe_gene 4096 Jan 18 13:52 dir_c
+-rwxr-xr-x 1 root  root         548 Jan 18 09:49 lambda_a.sh
 ```
 
 
