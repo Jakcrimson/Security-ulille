@@ -12,7 +12,7 @@ On ne peux pas ecrire le fichier car on ne dispose pas des droits d'écriture po
 
 ## Question 2
 
-Le droit 'x' pour un dossier signifie qu'on ne peut pas l'ouvrir.
+La modification de permission '-x' pour un dossier signifie qu'on enlève la possibilité pour un utilisateur non sudoer et n'appartenant pas au groupe de pouvoir rentrer dans ce dossier.
 En executant les operations suivantes :
 ```bash
 >su ubuntu
@@ -57,21 +57,10 @@ int main() {
         exit(EXIT_FAILURE);
     }
 
-    // Obtention de la taille du fichier pour allouer un tampon de lecture approprié
-    struct stat st;
-    if (fstat(fd, &st) == -1) {
-        perror("Erreur lors de la récupération de la taille du fichier");
-        close(fd);
-        exit(EXIT_FAILURE);
-    }
-
-    // Allouer un tampon de lecture
-    char *buffer = malloc(st.st_size);
-    if (buffer == NULL) {
-        perror("Erreur lors de l'allocation du tampon de lecture");
-        close(fd);
-        exit(EXIT_FAILURE);
-    }
+    /*
+    Code associé au setup du tampon de lecture
+    ... (cf suid.c)
+    */
 
     // Lecture du contenu du fichier
     ssize_t bytesRead = read(fd, buffer, st.st_size);
