@@ -274,17 +274,76 @@ Mettre les scripts bash dans le repertoire *question7*.
 
 ## Question 8
 
-Le programme et les scripts dans le repertoire *question8*.
+Nos programmes question 8 et 9 sont fusionnés. On prends en compte la création de mot de passe, la mise à jour du fichier passwd et le chiffrage des mots de passe dans passwd avec `id:passwd`. 
+
+Les script executés donnent les résultats suivants :
+
+```bash
+admin@vm1:/root/partage$ ./rmg_test.sh
+File to delete: dir_a/suppme
+Your file exists!
+Enter your password :
+SYSTEM : Your userid and password have been added to the file 
+Access granted
+Deleting the file
+```
+Avec l'utilisateur admin quand il veut supprimer un fichier dans `dir_a`.
+
+```bash
+lambda_a@vm1:/root/partage$ ./rmg_test.sh
+File to delete: dir_a/suppme
+Your file exists!
+Enter your password :
+SYSTEM : Your userid and password have been added to the file 
+Access denied
+```
+Avec l'utilisateur lambda_a quand il veut supprimer un fichier dans `dir_b`.
+
 
 ## Question 9
 
-Le programme et les scripts dans le repertoire *question9*.
+cf q8. et dossier q9.
+
+```bash
+affichage avant
+Enter your password :
+0
+12Zrt0LAKAbjk
+affichage après
+15764:12Zrt0LAKAbjk
+```
+
 
 ## Question 10
 
-Les programmes *groupe_server* et *groupe_client* dans le repertoire
-*question10* ainsi que les tests. 
+cf dossier q10. 
 
+un exemple de l'éxécution :
+
+
+```bash
+
+Socket successfully created..
+Socket successfully binded..
+Server listening..
+server accept the client...
+command: list, path: .
+/home/franzele/Desktop/univ_lille/m1s2/isi/tp1/
+
+```
+
+```bash
+Socket successfully created..
+connected to the server..
+Enter your username: franzele
+Enter your password: oui
+From Server : You are connected!
+
+Enter the string : list .
+From Server : passwrd dir_a client.c client group_server.c group_server 
+Enter the string : 
+```
+On peut bien afficher le contenu d'un dossier
 
 
 

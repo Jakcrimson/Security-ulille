@@ -20,16 +20,6 @@ char password_file[] = "passwd";
 
 struct group *grp;
 
-unsigned long hash(char *str) {
-    // https://stackoverflow.com/questions/7666509/hash-function-for-string
-    unsigned long hash = 5381;
-    int c;
-
-    while (c = *str++)
-        hash = ((hash << 5) + hash) + c; /* hash * 33 + c */
-
-    return hash;
-}
 
 int main(int argc, char **argv) {
 
@@ -57,7 +47,7 @@ int main(int argc, char **argv) {
                     char *user = strtok(line, ":");
                     char *tmpPassword = strtok(NULL, ":");
 
-                    printf("User: %s, password: %s, p %s", &user[0], &tmpPassword[0], r.pwd);
+                    //printf("User: %s, password: %s, p %s", &user[0], &tmpPassword[0], r.pwd);
 
                     if (atoi(&user[0]) == userId) {
                         if (strcmp(&tmpPassword[0], r.pwd) == 0) {

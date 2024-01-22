@@ -34,7 +34,6 @@ struct Tuple check_exist_pwd(int userid, char password_file[]){
         }
         if (add == 0) //there is no identical id in the file, we add the new one
         {
-            printf("u here");
             fprintf(fp, "%d", userid);
             fprintf(fp, ":");
             const char* input_pwd = hash_pwd("123");
@@ -46,7 +45,6 @@ struct Tuple check_exist_pwd(int userid, char password_file[]){
             return r;
         }else // there is an identical id
         {
-            printf("or am i here");
             const char* input_pwd = hash_pwd("123");
             //printf("SYSTEM : You are already registered in the passwd file\n");
             fclose(fp);
@@ -62,7 +60,7 @@ char* hash_pwd(const char* salt){
 
     //https://ftp.gnu.org/old-gnu/Manuals/glibc-2.2.3/html_node/libc_650.html
     char *encrypted_pass;
-    
+
     encrypted_pass = crypt(getpass("Enter your password :"), salt);
 
     return encrypted_pass;
@@ -72,12 +70,12 @@ char* hash_pwd(const char* salt){
 
 
 
-// int main(int argc, char **argv){
+int main(int argc, char **argv){
     
-//     struct Tuple r = check_exist_pwd(15764, "passwd");
-//     printf("%d\n", r.res);
-//     printf("%s\n", r.pwd);
-//     return 0;
+    struct Tuple r = check_exist_pwd(15764, "passwd");
+    printf("%d\n", r.res);
+    printf("%s\n", r.pwd);
+    return 0;
 
-// }
+}
 //entry point of the program
