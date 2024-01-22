@@ -50,25 +50,43 @@ int grant_access(char *givenUsername, char *givenPassword){
     return granted;
 }
 
-char* listDir(DIR *dir) {
-    char* buff[MAX]; 
-    char buff2[MAX];
+char* listDir(char* path) {
+    char** buff = NULL;
+    int buff_size = 0;
+    char buff2[MAX] = "";
 
     struct dirent *ent;
+    DIR *dir;
 
+    char current_dir[MAX];
+    if (getcwd(current_dir, sizeof(current_dir)) == NULL) {
+        perror("Erreur lors de la récupération du répertoire de travail actuel");
+        exit(EXIT_FAILURE);
+    }
+
+    char full_path[MAX];
+    strcat(full_path, current_dir);
+    strcat(full_path, "/");
+    strcat(full_path, path);
+
+    printf("%s\n", full_path);
+
+    dir = opendir(full_path);
     if (dir == NULL) {
         perror("Erreur lors de l'ouverture du répertoire");
         exit(EXIT_FAILURE);
     }
 
     // Lire le répertoire
-    while ((ent = readdir(&dir)) != NULL) {
+    while ((ent = readdir(dir)) != NULL) {
         // Ignorer les entrées spéciales "." et ".."
         if (strcmp(ent->d_name, ".") != 0 && strcmp(ent->d_name, "..") != 0) {
             struct stat info;
-            
+
             // Obtenir les informations sur le fichier
-            if (stat(ent->d_name, &info) == -1) {
+            char file_path[MAX];
+            snprintf(file_path, MAX, "%s/%s", full_path, ent->d_name);
+            if (stat(file_path, &info) == -1) {
                 perror("Erreur lors de la récupération des informations sur le fichier");
                 exit(EXIT_FAILURE);
             }
@@ -79,11 +97,20 @@ char* listDir(DIR *dir) {
     }
     // Fermer le répertoire
     closedir(dir);
-    *buff = buff2;
 
-    return *buff;
+    // Allouer de la mémoire pour la chaîne de caractères finale
+    size_t result_size = strlen(buff2) + 1;
+    char* result = malloc(result_size);
+    if (result == NULL) {
+        perror("Erreur d'allocation mémoire");
+        exit(EXIT_FAILURE);
+    }
+
+    // Copier la chaîne de caractères finale dans le nouvel emplacement
+    strcpy(result, buff2);
+
+    return result;
 }
-
 
 // Function designed for chat between client and server. 
 void func(int connfd) {
@@ -115,17 +142,14 @@ void func(int connfd) {
             read(connfd, buff, sizeof(buff)); 
             char *line = strtok(buff, "\n");
             char *command = strtok(line, " ");
-            const char *path = strtok(NULL, " ");
+            char *path = strtok(NULL, " ");
 
             printf("command: %s, path: %s\n", command, path);
             if (strcmp(command, "list") == 0) {
 
                 bzero(buff, MAX);
-                DIR *dir;
-                dir = opendir(path);
-                printf("oui\n");
-                strcpy(buff, listDir(&dir));
-                closedir(dir);
+
+                strcpy(buff, listDir(path));
 
                 send(connfd, buff, sizeof(buff), 0);
                 bzero(buff, MAX);
@@ -138,7 +162,6 @@ void func(int connfd) {
                 printf("requête inconnue\n");
                 write(connfd, "Huh", 3);
             }
-            bzero(buff, MAX);
         }
     } 
 } 
