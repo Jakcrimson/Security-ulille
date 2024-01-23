@@ -7,7 +7,7 @@
 #include <sys/socket.h>
 #include <unistd.h> // read(), write(), close()
 #define MAX 80
-#define PORT 4001
+#define PORT 4000
 #define SA struct sockaddr
 
 int logged_in = 0;

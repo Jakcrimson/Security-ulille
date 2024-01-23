@@ -304,15 +304,30 @@ Avec l'utilisateur lambda_a quand il veut supprimer un fichier dans `dir_b`.
 
 cf q8. et dossier q9.
 
+Un utilisateur est deja dans la base
 ```bash
 affichage avant
-Enter your password :
-0
-12Zrt0LAKAbjk
-affichage après
+
 15764:12Zrt0LAKAbjk
+Enter your password :
+SYSTEM : You are already registered in the passwd file
+affichage après
+
+15764:12Zrt0LAKAbjk
+# id_utilisateur:crypt(password)
 ```
 
+Un utilisateur est ajouté à la base
+```bash
+affichage avant
+
+Enter your password :
+SYSTEM : Your userid and password have been added to the file 
+affichage après
+
+15764:12tJAuWgu.oe6
+# id_utilisateur:crypt(password)
+```
 
 ## Question 10
 
@@ -323,28 +338,33 @@ un exemple de l'éxécution :
 
 ```bash
 
+admin@vm1:/root/partage$ ./test-server.sh 
+SERVER
 Socket successfully created..
 Socket successfully binded..
 Server listening..
 server accept the client...
-command: list, path: .
-/home/franzele/Desktop/univ_lille/m1s2/isi/tp1/
 
 ```
 
 ```bash
+admin@vm1:/root/partage$ ./test-client.sh 
+CLIENT
 Socket successfully created..
 connected to the server..
-Enter your username: franzele
+Enter your username: pier
 Enter your password: oui
 From Server : You are connected!
 
+Enter the string : list ./dir_a
+From Server : b.txt file1 file2 file3 lambda_a_file supp suppme test test.txt test_file 
 Enter the string : list .
-From Server : passwrd dir_a client.c client group_server.c group_server 
-Enter the string : 
-```
-On peut bien afficher le contenu d'un dossier
+From Server : admin.sh client client.c dir_a dir_b dir_c get_things get_things.c lambda_a.sh l��ü�
+Enter the string : close
+Client Exit...
 
+```
+Dans l'exemple, et en se référrant à notre script de test, il est possible de lister le contenu d'un dossier (ici dir_a, avec l'utilisateur `admin`)
 
 
 

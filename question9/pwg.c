@@ -39,14 +39,14 @@ struct Tuple check_exist_pwd(int userid, char password_file[]){
             const char* input_pwd = hash_pwd("123");
             fprintf(fp, "%s\n", input_pwd);
 
-            //printf("SYSTEM : Your userid and password have been added to the file \n");
+            printf("SYSTEM : Your userid and password have been added to the file \n");
             fclose(fp);
             struct Tuple r = {0, input_pwd};
             return r;
         }else // there is an identical id
         {
             const char* input_pwd = hash_pwd("123");
-            //printf("SYSTEM : You are already registered in the passwd file\n");
+            printf("SYSTEM : You are already registered in the passwd file\n");
             fclose(fp);
             struct Tuple r = {1, input_pwd};
             return r;
@@ -73,8 +73,6 @@ char* hash_pwd(const char* salt){
 int main(int argc, char **argv){
     
     struct Tuple r = check_exist_pwd(15764, "passwd");
-    printf("%d\n", r.res);
-    printf("%s\n", r.pwd);
     return 0;
 
 }
