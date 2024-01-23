@@ -8,7 +8,7 @@
 
 ## Question 1
 
-On ne peux pas ecrire le fichier car on ne dispose pas des droits d'écriture pour l'utilisateur actuel (-r--rw-r--). Ainsi, quand on essaye de sauvegarder le buffer d'écriture du fichier, on a un message de "Permission Denied".
+On ne peux pas écrire le fichier car on ne dispose pas des droits d'écriture pour l'utilisateur actuel (-r--rw-r--). Ainsi, quand on essaye de sauvegarder le buffer d'écriture du fichier, on a un message de "Permission Denied".
 
 ## Question 2
 
@@ -23,7 +23,7 @@ En executant les operations suivantes :
 >cd mydir # on peut rentrer dans le dossier car pour l'utilisateur actuel, il y a toujours le droit x.
 ```
 
-Quand on utilise l'utilisateur toto, il n'est pas possile d'entrer dans le repertoire mydir. Les membres du groupe auront ce message :
+Quand on utilise l'utilisateur `toto`, il n'est pas possile d'entrer dans le repertoire `mydir`. Les membres du groupe auront ce message :
 
 ```bash
 bash: cd: mydir: Permission denied
@@ -108,10 +108,10 @@ Contenu du fichier mydir/mydata.txt :
 Hello World
 ```
 On remarque que les processus ID sont différents et que le contenu du fichier peut toujours être lu.
-mydir et mydata sont en permission de lecture et d'éxécution pour le groupe ubuntu.
+`mydir` et `mydata` sont en permission de lecture et d'éxécution pour le groupe `ubuntu`.
 
 
-Quand on fait appel au flag `set-user-id`, il est possible qu'un utilisateur du groupe ubuntu puise lire le contenu du fichier `mydata.txt` même s'il n'est pas en mode executable pour les groupes.
+Quand on fait appel au flag `set-user-id`, il est possible qu'un utilisateur du groupe `ubuntu` puise lire le contenu du fichier `mydata.txt` même s'il n'est pas en mode executable pour les groupes.
 
 ```bash
 chmod u+s mydata.txt  
@@ -131,7 +131,7 @@ RGID: 1001
 Contenu du fichier mydir/mydata.txt :
 Hello World !!!!!
 ```
-On retrouve les processus de l'utilisateur toto.
+On retrouve les processus de l'utilisateur `toto`.
 
 
 ## Question 4
@@ -163,15 +163,15 @@ toto@vm1:/home/ubuntu$ python3 suuid.py
 EUID: 1001
 EGID: 1001
 ```
-Grace au `set-user-id`, l'utilisateur toto est en mesure d'éxécuter le script. On retrouve bien les ids de l'utilisateur toto.
+Grace au `set-user-id`, l'utilisateur `toto` est en mesure d'éxécuter le script. On retrouve bien les ids de l'utilisateur `toto`.
 
 Le flag set-user-id (setuid) est un mécanisme de sécurité dans les systèmes d'exploitation Unix/Linux. Cela permet à un utilisateur d'exécuter un programme avec des privilèges supérieurs à ceux qu'il possède normalement.
 
 L'utilité du flag setuid est souvent associée à des situations où un programme nécessite des privilèges élevés pour effectuer certaines opérations, mais l'utilisateur normal ne devrait pas avoir ces privilèges en permanence.
 
-En ce qui concerne la modification d'attributs sans demander à l'administrateur, cela peut être réalisé si l'administrateur a spécifiquement prévu cela dans la configuration du système. Par exemple, il pourrait y avoir un programme avec setuid qui permet à l'utilisateur de modifier certaines de ses propres informations dans le fichier /etc/passwd sans nécessiter les privilèges d'administration complets. 
+En ce qui concerne la modification d'attributs sans demander à l'administrateur, cela peut être réalisé si l'administrateur a spécifiquement prévu cela dans la configuration du système. Par exemple, il pourrait y avoir un programme avec setuid qui permet à l'utilisateur de modifier certaines de ses propres informations dans le fichier `/etc/passwd` sans nécessiter les privilèges d'administration complets. 
 
-Par exemple, si on essaye de modifier les `suid` dans un script python éxécuté par ubuntu sans les droits admin, on obtient l'output suivant :
+Par exemple, si on essaye de modifier les `suid` dans un script python éxécuté par `ubuntu` sans les droits admin, on obtient l'output suivant :
 
 ```bash
 ubuntu@vm1:~$ python3 suuid.py 
@@ -189,12 +189,12 @@ PermissionError: [Errno 1] Operation not permitted
 
 ```python
 #le code en question :
-    ruid = 1001
-    euid = 1000
-    suid = 1001
-    os.setresuid(ruid, euid, suid) 
-    print(f"UIDs: {os.getresuid()}")
-    print(f"UIDs: {os.getresgid()}")
+ruid = 1001
+euid = 1000
+suid = 1001
+os.setresuid(ruid, euid, suid) 
+print(f"UIDs: {os.getresuid()}")
+print(f"UIDs: {os.getresgid()}")
 ```
 
 
@@ -216,7 +216,7 @@ On remarque que le `set-user-id` est activé, cela signifie que les utilisateurs
 
 De manière naturelle, `chfn` éxécutée avec root permet de changer des informations sur un utilisateur (real name, username, information etc.).
 
-Si on essaye de lancer la commande `chfn` avec l'utilisateur toto, l'utilisateur doit entrer un mot de passe, vraisemblablement, celui de l'utilisateur (en l'occurence `root`). Une fois rentré, nous pouvons modifier les informations de l'utilisateur toto.
+Si on essaye de lancer la commande `chfn` avec l'utilisateur `toto`, l'utilisateur doit entrer un mot de passe, vraisemblablement, celui de l'utilisateur (en l'occurence `root`). Une fois rentré, nous pouvons modifier les informations de l'utilisateur `toto`.
 
 ```bash
 toto@vm1:/home/ubuntu$ chfn
@@ -243,7 +243,7 @@ toto:x:1001:1001:,45,06123485678,031234678:/home/toto:/bin/bash
 
 ## Question 7
 
-Pour la mise en place de la structure, on décide de créer un groupe en plus qui contient le groupe_a et le groupe_b afin de ne pas à avoir à utiliser les Access Control List.
+Pour la mise en place de la structure, on décide de créer un groupe en plus qui contient le `groupe_a` et le `groupe_b` afin de ne pas à avoir à utiliser les Access Control List.
 
 Entre autres nous avons utilisé les fonctions suivantes :
 
@@ -278,6 +278,7 @@ Nos programmes question 8 et 9 sont fusionnés. On prends en compte la création
 
 Les script executés donnent les résultats suivants :
 
+>Avec l'utilisateur admin quand il veut supprimer un fichier dans `dir_a`.
 ```bash
 admin@vm1:/root/partage$ ./rmg_test.sh
 File to delete: dir_a/suppme
@@ -287,8 +288,8 @@ SYSTEM : Your userid and password have been added to the file
 Access granted
 Deleting the file
 ```
-Avec l'utilisateur admin quand il veut supprimer un fichier dans `dir_a`.
 
+>Avec l'utilisateur lambda_a quand il veut supprimer un fichier dans `dir_b`.
 ```bash
 lambda_a@vm1:/root/partage$ ./rmg_test.sh
 File to delete: dir_a/suppme
@@ -297,14 +298,14 @@ Enter your password :
 SYSTEM : Your userid and password have been added to the file 
 Access denied
 ```
-Avec l'utilisateur lambda_a quand il veut supprimer un fichier dans `dir_b`.
+
 
 
 ## Question 9
 
 cf q8. et dossier q9.
 
-Un utilisateur est deja dans la base
+>Un utilisateur est deja dans la base
 ```bash
 affichage avant
 
@@ -317,7 +318,7 @@ affichage après
 # id_utilisateur:crypt(password)
 ```
 
-Un utilisateur est ajouté à la base
+>Un utilisateur est ajouté à la base
 ```bash
 affichage avant
 
@@ -335,7 +336,7 @@ cf dossier q10.
 
 un exemple de l'éxécution :
 
-
+>ici le serveur est en écoute
 ```bash
 
 admin@vm1:/root/partage$ ./test-server.sh 
@@ -347,6 +348,8 @@ server accept the client...
 
 ```
 
+>quand on lance le script de test client, le client se connecte au serveur et peut dialoguer.
+Nous n'avons pas eu le temps de faire le lien entre les scripts des questions 8 et 9, ni d'implémenter proprement le fork()
 ```bash
 admin@vm1:/root/partage$ ./test-client.sh 
 CLIENT
@@ -356,11 +359,11 @@ Enter your username: pier
 Enter your password: oui
 From Server : You are connected!
 
-Enter the string : list ./dir_a
+Enter the string : list ./dir_a #le client veut lister dir_a
 From Server : b.txt file1 file2 file3 lambda_a_file supp suppme test test.txt test_file 
-Enter the string : list .
+Enter the string : list . #le client veut lister /root/partage/
 From Server : admin.sh client client.c dir_a dir_b dir_c get_things get_things.c lambda_a.sh l��ü�
-Enter the string : close
+Enter the string : close # le client met fin à l'échange
 Client Exit...
 
 ```
